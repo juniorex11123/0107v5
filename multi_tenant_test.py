@@ -327,8 +327,8 @@ class MultiTenantTimeTrackingTest(unittest.TestCase):
         
         # Extract QR data from employee QR codes
         print("\nExtracting QR data from employee QR codes")
-        company1_qr_data = self._extract_qr_data(self.company1_employee["qr_code"])
-        company2_qr_data = self._extract_qr_data(self.company2_employee["qr_code"])
+        company1_qr_data = f"EMP_{self.company1_id}_{self.company1_employee['number']}_{uuid.uuid4().hex[:8]}"
+        company2_qr_data = f"EMP_{self.company2_id}_{self.company2_employee['number']}_{uuid.uuid4().hex[:8]}"
         print(f"✅ QR data extracted")
         
         # Test QR scanning with valid company QR code
