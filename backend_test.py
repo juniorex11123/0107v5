@@ -13,7 +13,7 @@ class MultiTenantTimeTrackingSystemTest(unittest.TestCase):
     
     def __init__(self, *args, **kwargs):
         super(MultiTenantTimeTrackingSystemTest, self).__init__(*args, **kwargs)
-        self.base_url = "https://f332c407-65e9-4037-992d-6ec897157efb.preview.emergentagent.com/api"
+        self.base_url = "http://localhost:8001/api"
 
     def setUp(self):
         # Nothing to set up before each test
