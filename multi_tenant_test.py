@@ -65,6 +65,12 @@ class MultiTenantTimeTrackingTest(unittest.TestCase):
         self.company1_token = data["access_token"]
         self.company1_id = data["user"]["company_id"]
         self.company1_user = data["user"]
+        
+        # Save to class variables
+        MultiTenantTimeTrackingTest.company1_token = self.company1_token
+        MultiTenantTimeTrackingTest.company1_id = self.company1_id
+        MultiTenantTimeTrackingTest.company1_user = self.company1_user
+        
         print(f"✅ Company 1 registered successfully with ID: {self.company1_id}")
         
         # Register Company 2
@@ -78,6 +84,12 @@ class MultiTenantTimeTrackingTest(unittest.TestCase):
         self.company2_token = data["access_token"]
         self.company2_id = data["user"]["company_id"]
         self.company2_user = data["user"]
+        
+        # Save to class variables
+        MultiTenantTimeTrackingTest.company2_token = self.company2_token
+        MultiTenantTimeTrackingTest.company2_id = self.company2_id
+        MultiTenantTimeTrackingTest.company2_user = self.company2_user
+        
         print(f"✅ Company 2 registered successfully with ID: {self.company2_id}")
         
         # Verify different company IDs
