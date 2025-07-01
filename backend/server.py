@@ -374,6 +374,68 @@ async def delete_company(
     
     return {"message": "Company and all its data deleted successfully"}
 
+# Company Self-Registration
+@app.post("/api/auth/register-company", response_model=Token)
+async def register_company(company_data: CompanyRegistration):
+    """Allow companies to self-register with admin user"""
+    # Check if company name already exists
+    existing_company = await db.companies.find_one({"name": company_data.company_name})
+    if existing_company:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Firma o tej nazwie już istnieje"
+        )
+    
+    # Check if admin username already exists
+    existing_user = await db.users.find_one({"username": company_data.admin_username})
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Nazwa użytkownika już istnieje"
+        )
+    
+    # Create company
+    company = Company(
+        name=company_data.company_name,
+        owner_id="system"  # For self-registered companies
+    )
+    await db.companies.insert_one(company.dict())
+    
+    # Create admin user
+    admin_user = User(
+        username=company_data.admin_username,
+        email=company_data.admin_email,
+        password_hash=get_password_hash(company_data.admin_password),
+        role="admin",
+        company_id=company.id
+    )
+    await db.users.insert_one(admin_user.dict())
+    
+    # Generate access token for the new admin
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={
+            "sub": admin_user.username,
+            "company_id": admin_user.company_id,
+            "role": admin_user.role,
+            "type": "user"
+        }, 
+        expires_delta=access_token_expires
+    )
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": admin_user.id,
+            "username": admin_user.username,
+            "email": admin_user.email,
+            "role": admin_user.role,
+            "company_id": admin_user.company_id,
+            "type": "user"
+        }
+    }
+
 # Universal Authentication - handles both owners and regular users
 @app.post("/api/auth/login", response_model=Token)
 async def login(user_data: UserLogin):
