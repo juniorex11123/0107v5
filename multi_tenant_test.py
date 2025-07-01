@@ -112,6 +112,7 @@ class MultiTenantTimeTrackingTest(unittest.TestCase):
         self.assertEqual(response.status_code, 200, f"Failed to login as company 1 admin: {response.text}")
         data = response.json()
         self.company1_token = data["access_token"]  # Update token
+        MultiTenantTimeTrackingTest.company1_token = self.company1_token
         self.assertEqual(data["user"]["company_id"], self.company1_id, "Company ID mismatch in token")
         print("✅ Company 1 admin login successful")
         
@@ -127,6 +128,7 @@ class MultiTenantTimeTrackingTest(unittest.TestCase):
         self.assertEqual(response.status_code, 200, f"Failed to login as company 2 admin: {response.text}")
         data = response.json()
         self.company2_token = data["access_token"]  # Update token
+        MultiTenantTimeTrackingTest.company2_token = self.company2_token
         self.assertEqual(data["user"]["company_id"], self.company2_id, "Company ID mismatch in token")
         print("✅ Company 2 admin login successful")
         
