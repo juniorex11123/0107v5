@@ -101,7 +101,7 @@ class MultiTenantTimeTrackingSystemTest(unittest.TestCase):
         
         response = requests.post(
             f"{self.base_url}/auth/login",
-            json={"username": "admin_test", "password": "test123"}
+            json={"username": "admin2", "password": "admin123"}
         )
         
         self.assertEqual(response.status_code, 200, f"Failed to login as admin: {response.text}")
