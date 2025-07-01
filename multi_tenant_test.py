@@ -254,6 +254,7 @@ class MultiTenantTimeTrackingTest(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200, f"Failed to create employee in company 1: {response.text}")
         self.company1_employee = response.json()
+        MultiTenantTimeTrackingTest.company1_employee = self.company1_employee
         print(f"✅ Employee created in Company 1 with ID: {self.company1_employee['id']}")
         
         # Verify QR code contains company information
@@ -276,6 +277,7 @@ class MultiTenantTimeTrackingTest(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200, f"Failed to create employee in company 2: {response.text}")
         self.company2_employee = response.json()
+        MultiTenantTimeTrackingTest.company2_employee = self.company2_employee
         print(f"✅ Employee created in Company 2 with ID: {self.company2_employee['id']}")
         
         # Verify employees in Company 1
