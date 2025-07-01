@@ -131,7 +131,7 @@ class MultiTenantTimeTrackingSystemTest(unittest.TestCase):
         self.assertEqual(response.status_code, 200, f"Failed to get company info: {response.text}")
         company = response.json()
         
-        self.assertEqual(company["name"], "Testowa Firma", "Company name mismatch")
+        self.assertEqual(company["name"], "Druga Firma Testowa", "Company name mismatch")
         print(f"✅ Retrieved company info: {company['name']}")
 
     def test_06_create_employee(self):
