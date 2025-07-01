@@ -6,30 +6,49 @@ from datetime import datetime
 
 class MultiTenantTimeTrackingTest(unittest.TestCase):
     """Test suite for Multi-Tenant Time Tracking System"""
+    
+    # Class variables to persist data across tests
+    company1 = None
+    company2 = None
+    company1_token = None
+    company2_token = None
+    company1_id = None
+    company2_id = None
+    company1_user = None
+    company2_user = None
+    company1_employee = None
+    company2_employee = None
 
     def setUp(self):
         """Set up test environment"""
         self.base_url = "http://localhost:8001/api"
-        self.company1 = {
-            "company_name": f"Firma ABC {uuid.uuid4().hex[:8]}",
-            "admin_username": f"admin_abc_{uuid.uuid4().hex[:8]}",
-            "admin_email": f"admin_abc_{uuid.uuid4().hex[:8]}@example.com",
-            "admin_password": "admin123"
-        }
-        self.company2 = {
-            "company_name": f"Firma XYZ {uuid.uuid4().hex[:8]}",
-            "admin_username": f"admin_xyz_{uuid.uuid4().hex[:8]}",
-            "admin_email": f"admin_xyz_{uuid.uuid4().hex[:8]}@example.com",
-            "admin_password": "admin123"
-        }
-        self.company1_token = None
-        self.company2_token = None
-        self.company1_id = None
-        self.company2_id = None
-        self.company1_user = None
-        self.company2_user = None
-        self.company1_employee = None
-        self.company2_employee = None
+        
+        # Initialize company data only once
+        if MultiTenantTimeTrackingTest.company1 is None:
+            MultiTenantTimeTrackingTest.company1 = {
+                "company_name": f"Firma ABC {uuid.uuid4().hex[:8]}",
+                "admin_username": f"admin_abc_{uuid.uuid4().hex[:8]}",
+                "admin_email": f"admin_abc_{uuid.uuid4().hex[:8]}@example.com",
+                "admin_password": "admin123"
+            }
+            MultiTenantTimeTrackingTest.company2 = {
+                "company_name": f"Firma XYZ {uuid.uuid4().hex[:8]}",
+                "admin_username": f"admin_xyz_{uuid.uuid4().hex[:8]}",
+                "admin_email": f"admin_xyz_{uuid.uuid4().hex[:8]}@example.com",
+                "admin_password": "admin123"
+            }
+        
+        # Use class variables
+        self.company1 = MultiTenantTimeTrackingTest.company1
+        self.company2 = MultiTenantTimeTrackingTest.company2
+        self.company1_token = MultiTenantTimeTrackingTest.company1_token
+        self.company2_token = MultiTenantTimeTrackingTest.company2_token
+        self.company1_id = MultiTenantTimeTrackingTest.company1_id
+        self.company2_id = MultiTenantTimeTrackingTest.company2_id
+        self.company1_user = MultiTenantTimeTrackingTest.company1_user
+        self.company2_user = MultiTenantTimeTrackingTest.company2_user
+        self.company1_employee = MultiTenantTimeTrackingTest.company1_employee
+        self.company2_employee = MultiTenantTimeTrackingTest.company2_employee
 
     def test_01_company_registration(self):
         """Test company registration and admin creation"""
